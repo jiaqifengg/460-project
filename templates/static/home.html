@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Recipe Generator</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="vendor/select2/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="vendor/select2/dist/js/select2.min.js"></script>
+</head>
+<body>
+    <form method='POST' action='/ingredients' id='ingr-select'>
+        <fieldset>
+            <div id='protein'>
+                <legend>Meats and Seafood</legend>
+                <ol>
+                    <li><<input type='checkbox' name='chicken' value='chicken'>Chicken</li> 
+                    <li><input type='checkbox' name='beef' value='beef'>Beef</li>
+                    <li><input type='checkbox' name='pork' value='pork'>Pork</li>
+                    <input type='checkbox' name='shrimp' value='shrimp'>Shrimp<br>
+                    <input type='checkbox' name='tofu' value='tofu'>Tofu<br>
+                    <input type='checkbox' name='fish' value='fish'>Fish<br>
+                    <input type='checkbox' name='sausage' value='sausage'>Sausage<br>
+                </ol>
+            </div>
+            <div id='vegetables'>
+                <input type='checkbox' name='broccoli' value='broccoli'>Broccoli<br>
+                <input type='checkbox' name='mushrooms' value='mushroom'>Mushroom<br>
+                <input type='checkbox' name='corn' value='corn'>Corn<br>
+                <input type='checkbox' name='carrot' value='carrot'>Carrot<br>
+                <input type='checkbox' name='garlic' value='garlic'>Garlic<br>
+                <input type='checkbox' name='Onion' value='onion'>Onion<br>
+            </div>
+        </fieldset>
+
+    </form>
+</body>
+</html>
