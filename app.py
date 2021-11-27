@@ -6,9 +6,9 @@ from flask_bootstrap import Bootstrap
 from flask_select2 import Select2
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/cse460db'
-# db = SQLAlchemy(app)
-# migrate = Migrate(app, db)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/cse460db'
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 @app.route('/')
 def index():
