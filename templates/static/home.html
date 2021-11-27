@@ -1,41 +1,69 @@
-<!DOCTYPE html>
 <html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <head>
     <title>Recipe Generator</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link href="vendor/select2/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="vendor/select2/dist/js/select2.min.js"></script>
-</head>
-<body>
-    <form method='POST' action='/ingredients' id='ingr-select'>
-        <fieldset>
-            <div id='protein'>
-                <legend>Meats and Seafood</legend>
-                <ol>
-                    <li><<input type='checkbox' name='chicken' value='chicken'>Chicken</li> 
-                    <li><input type='checkbox' name='beef' value='beef'>Beef</li>
-                    <li><input type='checkbox' name='pork' value='pork'>Pork</li>
-                    <input type='checkbox' name='shrimp' value='shrimp'>Shrimp<br>
-                    <input type='checkbox' name='tofu' value='tofu'>Tofu<br>
-                    <input type='checkbox' name='fish' value='fish'>Fish<br>
-                    <input type='checkbox' name='sausage' value='sausage'>Sausage<br>
-                </ol>
-            </div>
-            <div id='vegetables'>
-                <input type='checkbox' name='broccoli' value='broccoli'>Broccoli<br>
-                <input type='checkbox' name='mushrooms' value='mushroom'>Mushroom<br>
-                <input type='checkbox' name='corn' value='corn'>Corn<br>
-                <input type='checkbox' name='carrot' value='carrot'>Carrot<br>
-                <input type='checkbox' name='garlic' value='garlic'>Garlic<br>
-                <input type='checkbox' name='Onion' value='onion'>Onion<br>
-            </div>
-        </fieldset>
-
-    </form>
-</body>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="jumbotron">
+        <div class="col-md-6">
+            <form method='POST' action='/ingredients' id='ingr-select'>
+                <label>Select which ingredients you would like to use:</label>
+                <select id="ingredients" name="ingredients[]" class="js-states form-control" multiple>
+                  <optgroup label='Meats/Poultry/Seafood' data-select2-id="select2-data-1-abc">
+                      <option value='chicken'>Chicken</option>
+                      <option value='beef'>Beef</option>
+                      <option value='pork'>Pork</option>
+                      <option value='tofu'>Tofu</option>
+                      <option value='turkey'>Turkey</option>
+                      <option value='sausage'>Sausage</option>
+                      <option value='shrimp'>Shrimp</option>
+                      <option value='lamb'>Lamb</option>
+                      <option value='fish'>Fish</option>
+                      <option value='duck'>Duck</option>
+                      <option value='crab'>Crab</option>
+                      <option value='egg'>Egg</option>
+                  </optgroup>
+                  <optgroup label='Vegetables' data-select2-id="select2-data-2-veg">
+                      <option value='broccoli'>Broccoli</option>
+                      <option value='mushroom'>Mushroom</option>
+                      <option value='corn'>Corn</option>
+                      <option value='carrot'>Carrot</option>
+                      <option value='garlic'>Garlic</option>
+                      <option value='onion'>Onion</option>
+                      <option value='potato'>Potatoes</option>
+                      <option value='cauliflower'>Cauliflower</option>
+                      <option value='spinach'>Spinach</option>
+                      <option value='bok choy'>Bok Choy</option>
+                      <option value='spinach'>Spinach</option>
+                      <option value='peppers'>Peppers</option>
+                      <option value='lettuce'>Lettuce</option>
+                  </optgroup>
+                  <optgroup label='Grains' data-select2-id="select2-data-2-carbs">
+                      <option value='rice'>Rice</option>
+                      <option value='oats'>Oats</option>
+                      <option value='quinoa'>Quinoa</option>
+                      <option value='farro'>Farro</option>
+                  </optgroup>
+                </select>
+                <div class="form-group">
+                  <button class="submit" id="1">Find Recipes</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Select2 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script>
+      $("#ingredients").select2({
+          placeholder: "Select ingredients",
+          allowClear: true
+      });
+    </script>
+  </body>
 </html>
