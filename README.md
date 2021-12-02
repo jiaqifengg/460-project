@@ -7,3 +7,16 @@ npm install -g bower
 pip3 install flask
 pip3 install pipenv
 ```
+
+
+set up:
+pip install virtualenv
+cd (project directory)
+virtualenv env
+source env/bin/activate
+pip install Flask
+pip install flask_sqlalchemy
+pip install flask_migrate
+
+run:
+python app.py
