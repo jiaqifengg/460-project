@@ -17,31 +17,30 @@ class database():
         cursor = connection.cursor()
 
         # create user table
-        create_user_talbe = "CREATE TABLE IF NOT EXISTS users( "
-        create_user_talbe += "userid SERIAL NOT NULL, "
-        create_user_talbe += "username VARCHAR(50) NOT NULL, "
-        create_user_talbe += "password VARCHAR(50) NOT NULL, "
-        create_user_talbe += "hash_token_in_binary BYTEA DEFAULT NULL, "
-        create_user_talbe += "PRIMARY KEY (userid, username)"
-        create_user_talbe += ");"
-        cursor.execute(create_user_talbe)
+        create_user_table = """CREATE TABLE IF NOT EXISTS users(
+                                userid SERIAL NOT NULL,
+                                username VARCHAR(50) NOT NULL,
+                                password VARCHAR(50) NOT NULL,
+                                logged_token VARCHAR(512) DEFAULT NULL,
+                                PRIMARY KEY (userid, username)
+                            );"""
+        cursor.execute(create_user_table)
 
         # insert userid 0 refer to administrator
-        insert_0 = "INSERT INTO users (username, password) "
-        insert_0 += "VALUES ('Administrator', 'cse460temp')"
+        insert_0 = "INSERT INTO users (username, password) VALUES ('Administrator', 'cse460temp')"
         cursor.execute(insert_0)
 
         # create recipe talbe
-        recipe_table = "CREATE TABLE IF NOT EXISTS recipes( "
-        recipe_table += "recipeid SERIAL NOT NULL PRIMARY KEY, "
-        recipe_table += "title TEXT NOT NULL, "
-        recipe_table += "ingredients TEXT NOT NULL, "
+        recipe_table = """CREATE TABLE IF NOT EXISTS recipes(
+                            recipeid SERIAL NOT NULL PRIMARY KEY,
+                            title TEXT NOT NULL,
+                            ingredients TEXT[] NOT NULL,
+                            directions TEXT[],
+                            from_link TEXT,
+                            from_source TEXT,
+                            ner TEXT[]
+                        );"""
         # when insert need to be a arrary form https://www.postgresqltutorial.com/postgresql-array/
-        recipe_table += "directions TEXT[], "
-        recipe_table += "from_link TEXT, "
-        recipe_table += "from_source TEXT,"
-        recipe_table += "ner TEXT[]"
-        recipe_table += ");"
         cursor.execute(recipe_table)
         # add
         # drop from_source 
@@ -52,15 +51,13 @@ class database():
 
         # create comment table
         # make sure to check the comment is not empty when insert 
-        comment_talbe = "CREATE TABLE IF NOT EXISTS comments( "
-        comment_talbe += "userid INT, "
-        comment_talbe += "recipeid INT, "
-        comment_talbe += "comment TEXT NOT NULL "
-        comment_talbe += ");"
+        comment_table = """CREATE TABLE IF NOT EXISTS comments(
+                            userid INT,
+                            recipe INT,
+                            comment TEXT NOT NULL
+                        );"""
         # add constrain 
         # userid reference user.userid
         # recipeid reference recipes.recipeid
-        cursor.execute(comment_talbe)
-
-
+        cursor.execute(comment_table)
         connection.commit()
