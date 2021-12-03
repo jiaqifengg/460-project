@@ -9,14 +9,13 @@ pip3 install pipenv
 ```
 
 
-set up:
-pip install virtualenv
-cd (project directory)
-virtualenv env
-source env/bin/activate
-pip install Flask
-pip install flask_sqlalchemy
-pip install flask_migrate
+Mac set up:
+python3 -m venv venv
+source venv/bin/activate
+pip install psycopg2-binary==2.9.2
+pip install flask
+
 
 run:
 python app.py
+http://127.0.0.1:5000/

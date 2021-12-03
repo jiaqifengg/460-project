@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+#from flask_migrate import Migrate
 import sys
+from database.databaseModule import database
 # from flask_wtf import FlaskForm
 # from flask_bootstrap import Bootstrap
 # from flask_select2 import Select2
@@ -9,8 +9,8 @@ import sys
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:cse460pw@localhost/cse460db'
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+db = database(app)
+#migrate = Migrate(app, db)
 
 @app.route('/', methods=['GET'])
 def index():
