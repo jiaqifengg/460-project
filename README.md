@@ -10,12 +10,10 @@ pip3 install pipenv
 
 
 Mac set up:
-```
 python3 -m venv venv
 source venv/bin/activate
 pip install psycopg2-binary==2.9.2
 pip install flask
-```
 
 
 run:
