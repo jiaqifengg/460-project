@@ -1,7 +1,8 @@
 # CSE 460 Project: Recipe Generator
-Recipe generator using a subset of data from RecipeNLG dataset. 
-
+Recipe generator using a subset of data from RecipeNLG dataset(http://recipenlg.cs.put.poznan.pl/).
 Using Select2 to choose a subset of ingredients to find existing recipes.
+
+Setting Up With Windows:
 ```
 npm install -g bower
 pip install pipenv
@@ -9,7 +10,7 @@ pipenv install flask psycopg2
 ```
 
 
-Mac set up:
+Setting Up With Mac OS:
 ```
 python3 -m venv venv
 source venv/bin/activate
@@ -19,5 +20,5 @@ pip install flask
 
 
 run:
-python app.py
+python3 app.py
 http://127.0.0.1:5000/
