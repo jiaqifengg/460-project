@@ -5,8 +5,40 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Recipes</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <style>
+      #register, #login, .navbar-brand{
+        color: white; 
+      }
+
+      #myId {
+        background-color: #8fa4db;
+      }
+    </style>
 </head>
 <body>
-    <h1>Recipes List</h1>
+    <div id="the-navbar">
+        <nav class="navbar navbar-light" id="myId">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <a class="navbar-brand" href="/">Recipes</a>
+              </div>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="/register" id="register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                <li><a href="/login" id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+              </ul>
+            </div>
+        </nav>
+    </div>
+    <h1>Recipes Available</h1>
+    <ul style="list-style-type:none;"">
+        {% for recipeid in recipe_list %}
+          <div id='recipe-block'>
+            <li><a href="/recipe/{{ recipeid }}"">Recipe #{{ recipeid }}</a></li>
+          </div>
+        {% endfor %}
+    </ul>
 </body>
 </html>

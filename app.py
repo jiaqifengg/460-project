@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 #from flask_migrate import Migrate
 import sys
 from database.databaseModule import database
@@ -18,18 +18,25 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    pass
+    return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    pass
+    return render_template('register.html')
 
 @app.route('/recipes')
 def find_recipes():
     ingredients = request.args.getlist('ingredients')
     print("Here", file=sys.stdout)
     print(ingredients, file=sys.stdout)
-    return render_template('recipeList.html')
+    recipe_list = ['1', '2', '3']
+    return render_template('recipeList.html', recipe_list=recipe_list)
+
+@app.route('/recipe/<id>', methods=['GET'])
+def recipe(id):
+    print(id)
+    return render_template('recipe.html')
+
 
 if __name__ == "__main__":
     app.debug = True
