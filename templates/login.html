@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Recipes - Login</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Recipe Generator</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+      #register, #login, .navbar-brand{
+        color: white; 
+      }
+
+      #myId {
+        background-color: #8fa4db;
+      }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-light" id="myId">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Recipes</a>
+          </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/register" id="register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+          </ul>
+        </div>
+    </nav>
+    <form id='login-form' action='/login' metho='POST'>
+        <div class='container'>
+            <h1>Login</h1>
+            <div class='inputbox'>
+              <input id='username-field' type='text' placeholder='Username' name='username' required>
+              <input id='pw-field' type='password' placeholder='Password' name='password' required>
+              <input type='submit' type='Submit' value='Login'>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
