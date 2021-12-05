@@ -13,6 +13,11 @@ CREATE TABLE IF NOT EXISTS comments(
     FOREIGN KEY (recipeid) REFERENCES recipes(recipeid)
 );
 
+CREATE TABLE IF NOT EXISTS categories(
+	category VARCHAR(50) PRIMARY KEY,
+	recipes integer[]
+);
+
 COPY persons(first_name, last_name, dob, email)
 FROM 'C:...\CSE 460\Project\460-project\460-project\project-report\recipes.csv'
 DELIMITER ','
