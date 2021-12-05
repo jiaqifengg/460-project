@@ -112,6 +112,7 @@ class database():
 
         self.connection.commit()
     
+
     def set_up_helper_change_administrator(self):
         # hash the password of administrator
         hash_admin_password = hash_function('cse460temp')
@@ -129,7 +130,6 @@ class database():
         self.connection.commit()
 
 
-
     def check_user_exist(self, username):
         sql = """SELECT userid 
                 FROM users 
@@ -142,6 +142,7 @@ class database():
             return False
         return True
    
+
     def register(self, username, password): 
         # make sure to check if the username exist before using this function
         sql = "INSERT INTO users (username, password)"
@@ -150,6 +151,7 @@ class database():
         val = (username, hashed_password)
         self.cursor.execute(sql, val)
         self.connection.commit()
+
 
     def login(self, username, password):
         # make sure to check if the username exist before using this function        

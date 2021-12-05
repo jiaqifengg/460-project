@@ -31,8 +31,6 @@ def login():
         else:
             return 'Username does not exist.'
 
-
-
     return render_template('login.html')
 
 
