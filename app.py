@@ -130,6 +130,18 @@ def make_respond_with_cookie(recipeid, templete):
         if token_exist:
             response.set_cookie('id', token)
     return response
+
+def delete_account():
+    # redirect to main page
+    token = request.cookies.get('id')
+    _ = db.check_token(token)
+    if _ != []:
+        username = _[1]
+        db.delete_account(username)
+        return 
+        # return to main page
+    else:
+        return "NOT logged in yet."
     
 
 

@@ -258,8 +258,14 @@ class database():
 
         return False
 
+    def delete_account(self, username):
+        # check token first
+        sql = "DELETE FROM users where username=%s"
+        val = (username,)
+        self.cursor.execute(sql, val)
+        self.connection.commit()
 
-
+        
     def check_token(self, token):
         # return [] when the token is not exist
         # return [id, username] when token is exist
