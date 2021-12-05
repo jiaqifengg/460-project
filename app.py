@@ -22,6 +22,7 @@ def index():
 
     return render_template('home.html')
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == "POST" and 'username' in request.form and 'password' in request.form:
@@ -81,10 +82,12 @@ def register():
 @app.route('/recipes')
 def find_recipes():
     ingredients = request.args.getlist('ingredients')
-    print("Here", file=sys.stdout)
-    print(ingredients, file=sys.stdout)
-    recipe_list = ['1', '2', '3']
-    return render_template('recipeList.html', recipe_list=recipe_list)
+    print(ingredients)
+    recipe_list = db.get_recipes(ingredients)
+    amount = len(recipe_list)
+    # recipe_list = ['1', '2', '3']
+    return render_template('recipeList.html', total_recipes=amount, recipe_list=recipe_list)
+
 
 @app.route('/recipe/<id>', methods=['GET'])
 def recipe(id):
