@@ -62,7 +62,7 @@ class database():
 
         # create categories table
         category_table = """CREATE TABLE IF NOT EXISTS categories(
-                            category VARCHAR(50) NOT NULL,
+                            category VARCHAR(50) PRIMARY KEY,
                             recipes integer[]
                         );"""
         self.cursor.execute(category_table)
