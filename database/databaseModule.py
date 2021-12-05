@@ -66,7 +66,6 @@ class database():
         # This FUNCTION SHOULD ONLY RUN ONCE
 
         # self.after_recipes_imported()
-
         self.connection.commit()
 
 
