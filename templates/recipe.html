@@ -16,19 +16,6 @@
       #myId {
         background-color: #8fa4db;
       }
-      #ingredient-list, #directions-list, #source, h1{
-        padding-left: 15px;
-      }
-      #comments-area{
-        border: 1px solid grey;
-        position: fixed;
-        width: 90%;
-      }
-      #the-comment{
-        padding-left: 5px;
-        border: 1px solid grey;
-        width: 900px;
-      }
     </style>
 </head>
 <body>
@@ -45,46 +32,6 @@
             </div>
         </nav>
     </div>
-    <div id='the-recipe'>
-      <h1>{{ title }}</h1>
-      <div id='ingredient-list'>
-        <h3> Ingredients </h3>
-        <ul style="list-style-type:none;">
-          {% for ingredient in ingredients_list %}
-          <li> {{ ingredient }} </li>
-          {% endfor %}
-        </ul>
-      </div>
-      <div id='directions-list'>
-        <h3>Directions:</h3>
-        <ul style="list-style-type:none;">
-          {% for direction in directions_list %}
-          <li> {{ direction }} </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-    <div id='source'>
-      <a href="{ original }">Original Source</a>
-    </div>
-    <hr>
-    <div id='comments-area'>
-      <h3 style="padding-left: 10px;">Comments:</h3>
-        <ul style="list-style-type:none;">
-          {% for comment in comments_list %}
-          <div id='the-comment'>
-            <b><p>{ comment[0] }:</p></b><br>
-            <p>{ comment[1] }</p>
-          </div>
-          {% endfor %}
-        </ul>
-    </div>
-    <br>
-    <div id='comments-form'>
-      <form id='comment-form' action='/comment/{ id }' method='POST'>
-        <input id='comment-field' type='text' name='comment'>
-        <input type='submit' type='Submit' value='Submit'>
-      </form>
-    </div>
+    
 </body>
 </html>

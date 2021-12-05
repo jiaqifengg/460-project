@@ -190,6 +190,7 @@ class database():
         self.connection.commit()
         return 
 
+
     def check_user_exist(self, username):
         sql = """SELECT userid 
                 FROM users 
@@ -357,7 +358,13 @@ class database():
 
             return result
 
-
+def get_recipe_by_id(self, id):
+        query = """SELECT * FROM recipes WHERE recipeid=%s"""
+        vals = (id,)
+        self.cursor.execute(query, vals)
+        reuslts = self.cursor.fetchall()
+        self.connection.commit()
+        return reuslts[0]
 
 def hash_function(input):
     new_pw = input.encode()
