@@ -13,6 +13,18 @@ def index():
     token = request.cookies.get('id')
     print(db.check_token(token))
 
+    ## when insert comment 
+    # check if userid and recipeid exist
+    userid = 4
+    recipeid = 102
+    comment = 'hello'
+    if db.check_recipeid_userid_exist(userid, recipeid):
+        # check if comment is empty
+        if comment != '':
+            db.insert_comment(userid, recipeid, comment)
+
+    print(db.get_comment_by_recipe_id(100))
+
     return render_template('home.html')
 
 
