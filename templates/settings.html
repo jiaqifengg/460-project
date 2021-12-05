@@ -3,7 +3,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Recipes - Login</title>
+    <title>Recipes - Settings</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Recipe Generator</title>
     <!-- Bootstrap CSS -->
@@ -15,7 +15,7 @@
       #myId {
         background-color: #8fa4db;
       }
-      #login-form {
+      #password-form {
         position: fixed;
         top: 35%;
         left: 38%;
@@ -37,18 +37,15 @@
         <div class="navbar-header">
           <a class="navbar-brand" href="/">Recipes</a>
         </div>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="/register" id="register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-        </ul>
       </div>
   </nav>    
-  <form id='login-form' action='/login' method='POST'>
+  <form id='password-form' action='/password' method='POST'>
       <div class='container'>
-          <h1>Login</h1>
+          <h1>Change Password</h1>
           <div class='inputbox'>
-            <input id='username-field' type='text' placeholder='Username' name='username' required><br>
-            <input id='pw-field' type='password' placeholder='Password' name='password' required><br>
-            <input type='submit' type='Submit' value='Login'>
+            <input id='current-password' type='password' placeholder='Current Password' name='curr-pw' required><br>
+            <input id='new-password' type='password' placeholder='New Password' name='new-pw' required><br>
+            <input type='submit' type='Submit' value='Change Password'>
           </div>
       </div>
   </form>

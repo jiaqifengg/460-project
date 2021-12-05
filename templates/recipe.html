@@ -9,7 +9,7 @@
     <!-- Select2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <style>
-      #register, #login, .navbar-brand{
+      #register, #login, #settings, .navbar-brand{
         color: white; 
       }
 
@@ -73,16 +73,13 @@
         </ul>
       </div>
     </div>
-    <div id='source'>
-      <a href="{ original }">Original Source</a>
-    </div>
     <hr>
     <div id='comments-area'>
       <h3 style="padding-left: 10px;">Comments:</h3>
         <ul style="list-style-type:none;">
           {% for comment in comments_list %}
           <div id='the-comment'>
-            <b><p>{{ comment[0] }}:</p></b><br>
+            <b><p>{{ comment[0] }}:</p></b>
             <p>{{ comment[1] }}</p>
           </div><br>
           {% endfor %}

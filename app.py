@@ -111,10 +111,12 @@ def recipe(id):
     if db.check_token(token) != []:
         auth = True
     the_recipe = db.get_recipe_by_id(id)
+    print(the_recipe)
     title = the_recipe[1]
     ingredients_amount = the_recipe[2]
     directions = the_recipe[3]
     source = the_recipe[4]
+    print(source)
     the_id = the_recipe[0]
     comments = db.get_comment_by_recipe_id(the_id)
     print(comments)
@@ -139,14 +141,46 @@ def submit_comment():
     
 @app.route('/randomRecipe')
 def generate_random_recipe():
-    ingredients = request.args.getlist('ingredients')
-
+    categories = request.args.getlist('category')
+    recipe_id = db.recipeid_generator(categories)
+    print(categories)
+    print(recipe_id)
+    return redirect('/recipe/%s' % str(recipe_id))
 
 def make_respond_with_cookie(recipeid, template):
     response = make_response(template)
     response.set_cookie('recipeid', str(recipeid).encode('utf-8'))
 
     return response
+
+@app.route('/settings')
+def settings():
+    token = request.cookies.get('id')
+    data = db.check_token(token)
+    # if there is not a cookie then they cannot submit a comment
+    if data == []:
+        return '403 Forbidden - Please Login'
+    else:
+        return render_template('settings.html')
+
+@app.route('/password', methods=['POST'])
+def passwordChange():
+    token = request.cookies.get('id')
+    data = db.check_token(token)
+    if data == []:
+        return '403 Forbidden'
+    else:
+        userid = data[0]
+        username = data[1]
+        curr_pw = request.form.get('curr-pw')
+        new_pw = request.form.get('new-pw')
+        check_password = password_vaild(new_pw)
+        if not check_password[0]:
+            return check_password[1]
+        else:
+            results = db.update_password(userid, username, curr_pw, new_pw)
+            return results[1]
+        
     
 if __name__ == "__main__":
     app.debug = True

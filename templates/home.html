@@ -9,7 +9,6 @@
       #register, #login, #settings, .navbar-brand{
         color: white; 
       }
-
       #myId {
         background-color: #8fa4db;
       }
@@ -79,6 +78,24 @@
             </form>
         </div>
       </div>
+    </div>
+    <hr>
+    <div id='random-recipes-sec' name='categories' style="padding-left: 10px;">
+      <h1>Random Recipe</h1>
+      <p>Choose any proteins that you have: </p>
+      <form action="/randomRecipe" method="GET">
+        <input type="checkbox" id="chicken-check" name="category" value="Chicken">
+        <label for="chicken-check"> Chicken</label><br>
+        <input type="checkbox" id="beef-check" name="category" value="Beef">
+        <label for="beef-check"> Beef</label><br>
+        <input type="checkbox" id="fish-check" name="category" value="Fish">
+        <label for="fish-check"> Fish</label><br>
+        <input type="checkbox" id="pork-check" name="category" value="Pork">
+        <label for="pork-check"> Pork</label><br>
+        <input type="checkbox" id="tofu-check" name="category" value="Tofu">
+        <label for="tofu-check"> Tofu</label><br> 
+        <input type="submit" value="Random Recipe">
+      </form>
     </div>
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

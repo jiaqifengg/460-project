@@ -70,6 +70,7 @@ class database():
         # import recipes.csv to recipes table 
         # with Header yes and Delimeter ,
         # SET UP HELPER FUNCTIONS SHOULD BE ONLY RUN ONCE AFTER IMPORT RECIPES TABLES
+        # uncomment the following helper functions after import and comment once done
         
         # self.set_up1_helper_after_recipes_imported()
         # self.set_up2_helper_change_administrator()
@@ -358,12 +359,34 @@ class database():
             return result
 
     def get_recipe_by_id(self, id):
-            query = """SELECT * FROM recipes WHERE recipeid=%s"""
-            vals = (id,)
-            self.cursor.execute(query, vals)
-            reuslts = self.cursor.fetchall()
+        query = """SELECT * FROM recipes WHERE recipeid=%s"""
+        vals = (id,)
+        self.cursor.execute(query, vals)
+        reuslts = self.cursor.fetchall()
+        self.connection.commit()
+        return reuslts[0]
+    
+    def update_password(self, userid, username, curr_pw, new_pw):
+        user_exist = self.check_user_exist(username)
+        if user_exist:
+            hashed_curr_pw = hash_function(curr_pw)
+            hashed_new_pw = hash_function(new_pw)
+            query = """SELECT * FROM users WHERE userid=%s"""
+            self.cursor.execute(query, (userid,))
+            results = self.cursor.fetchall()
             self.connection.commit()
-            return reuslts[0]
+            stored_pw = results[0][2]
+            if hashed_curr_pw == stored_pw:
+                update_query = "UPDATE users SET password=%s WHERE userid=%s"
+                vals = (hashed_new_pw, userid)
+                self.cursor.execute(update_query, vals)
+                self.connection.commit()
+                return [True, 'Password Successfully Changed!']
+            else:
+                return [False, 'Please Input the Correct Current Password']
+        else:
+            return [False, 'User does not exist with such username']
+
 
 def hash_function(input):
     new_pw = input.encode()

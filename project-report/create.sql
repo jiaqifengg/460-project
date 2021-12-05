@@ -36,3 +36,18 @@ ALTER TABLE recipes RENAME COLUMN ner TO ingredients;
 ALTER TABLE recipes ADD COLUMN IF NOT EXISTS userid INT NOT NULL DEFAULT 1;
 
 ALTER TABLE recipes ADD CONSTRAINT recipe_userid_reference_user FOREIGN KEY (userid) REFERENCES users(userid);
+
+select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,chicken,%'
+INSERT INTO categories (category, recipes) VALUES ('Chicken', %s);
+
+select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,beef,%'
+INSERT INTO categories (category, recipes) VALUES ('Beef', %s);
+
+select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,fish,%'
+INSERT INTO categories (category, recipes) VALUES ('Fish', %s);
+
+select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,pork,%'
+INSERT INTO categories (category, recipes) VALUES ('Pork', %s);
+
+select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,tofu,%'
+INSERT INTO categories (category, recipes) VALUES ('Tofu', %s)
