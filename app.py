@@ -16,7 +16,7 @@ def index():
 
     ## when insert comment 
     # check if userid and recipeid exist
-    userid = 4
+    userid = 9
     recipeid = 102
     comment = 'hello'
     if db.check_recipeid_userid_exist(userid, recipeid):
@@ -25,6 +25,8 @@ def index():
             db.insert_comment(userid, recipeid, comment)
 
     #print(db.get_comment_by_recipe_id(100))
+
+    #db.register("adf", "hjlkj1234sdelpe")
 
 
     # recipeid_generator

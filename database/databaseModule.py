@@ -56,7 +56,6 @@ class database():
                             userid INT,
                             recipeid INT,
                             comment TEXT NOT NULL,
-                            FOREIGN KEY (userid) REFERENCES users(userid),
                             FOREIGN KEY (recipeid) REFERENCES recipes(recipeid)
                         );"""
         self.cursor.execute(comment_table)
@@ -75,8 +74,8 @@ class database():
         # self.set_up1_helper_after_recipes_imported()
         # self.set_up2_helper_change_administrator()
         # self.set_up3_helper_fill_category_table()
-        # self.set_up_helper4_trigger_for_comment()
-        # self.set_up_helper5_create_view_category_count()
+        # self.set_up_helper4_create_view_category_count()
+        self.set_up_helper5_trigger_for_comment()
 
         self.connection.commit()
 
@@ -174,11 +173,7 @@ class database():
         insert_tofu = "INSERT INTO categories (category, recipes) VALUES ('Tofu', %s);"
         self.cursor.execute(insert_tofu, (tofuArray,))
 
-    def set_up_helper4_trigger_for_comment(self):
-
-        return 
-    
-    def set_up_helper5_create_view_category_count(self):
+    def set_up_helper4_create_view_category_count(self):
         sql = """CREATE VIEW category_count AS
                 SELECT category, cardinality(recipes)
                 FROM categories
@@ -188,6 +183,35 @@ class database():
         self.cursor.execute(sql)
         self.connection.commit()
         return 
+
+    def set_up_helper5_trigger_for_comment(self):
+        # drop all userid foreign key for recipeid
+
+        #sql = "ALTER TABLE recipes DROP CONSTRAINT recipe_userid_reference_user;"
+        #self.cursor.execute(sql)
+        #self.connection.commit()
+        
+        function = """CREATE OR REPLACE FUNCTION userid_delete() RETURNS TRIGGER AS 
+                        $BODY$
+                        BEGIN
+                            DELETE FROM comments
+                            WHERE comments.userid=OLD.userid;
+                            RETURN NULL;
+                        END;
+                        $BODY$
+                        language plpgsql;"""
+        self.cursor.execute(function)
+
+
+        sql = """CREATE trigger useid_check
+                AFTER DELETE ON users
+                FOR EACH ROW 
+                EXECUTE PROCEDURE userid_delete();"""
+        
+        #self.cursor.execute(sql)
+        self.connection.commit()
+        return 
+    
 
 
     def check_user_exist(self, username):
