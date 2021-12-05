@@ -75,7 +75,7 @@ class database():
         # self.set_up1_helper_after_recipes_imported()
         # self.set_up2_helper_change_administrator()
         # self.set_up3_helper_fill_category_table()
-
+        # self.set_up_helper4_trigger_for_comment()
         # self.set_up_helper5_create_view_category_count()
 
         self.connection.commit()
@@ -136,7 +136,6 @@ class database():
                                 WHERE username = 'Administrator';"""
         self.cursor.execute(update_admin_password, hash_admin_password)
         self.connection.commit()
-
 
     def set_up_helper3_fill_category_table(self):
 
@@ -358,13 +357,13 @@ class database():
 
             return result
 
-def get_recipe_by_id(self, id):
-        query = """SELECT * FROM recipes WHERE recipeid=%s"""
-        vals = (id,)
-        self.cursor.execute(query, vals)
-        reuslts = self.cursor.fetchall()
-        self.connection.commit()
-        return reuslts[0]
+    def get_recipe_by_id(self, id):
+            query = """SELECT * FROM recipes WHERE recipeid=%s"""
+            vals = (id,)
+            self.cursor.execute(query, vals)
+            reuslts = self.cursor.fetchall()
+            self.connection.commit()
+            return reuslts[0]
 
 def hash_function(input):
     new_pw = input.encode()
