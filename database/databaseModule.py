@@ -56,7 +56,6 @@ class database():
                             userid INT,
                             recipeid INT,
                             comment TEXT NOT NULL,
-                            FOREIGN KEY (userid) REFERENCES users(userid),
                             FOREIGN KEY (recipeid) REFERENCES recipes(recipeid)
                         );"""
         self.cursor.execute(comment_table)

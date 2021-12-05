@@ -14,7 +14,7 @@ def index():
     # get the token
     token = request.cookies.get('id')
     auth = False
-    if token != None:
+    if db.check_token(token) != []:
         auth = True
     #print(db.check_token(token))
 
@@ -34,7 +34,7 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     token = request.cookies.get('id')
-    if token != None: # no access to /register
+    if db.check_token(token) != []: # no access to /register
         return 'You are already logged in!'
 
     if request.method == "POST" and 'username' in request.form and 'password' in request.form:
@@ -59,7 +59,7 @@ def login():
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
     token = request.cookies.get('id')
-    if token != None: # no access to /register
+    if db.check_token(token) != []:# no access to /register
         return 'You are already registered'
 
     if request.method == "POST" and 'username' in request.form and 'password' in request.form:
@@ -94,10 +94,9 @@ def register():
 def find_recipes():
     token = request.cookies.get('id')
     auth = False
-    if token != None:
+    if db.check_token(token) != []:
         auth = True
     ingredients = request.args.getlist('ingredients')
-    print(ingredients)
     recipe_list = db.get_recipes(ingredients)
     amount = len(recipe_list)
     # recipe_list = ['1', '2', '3']
@@ -109,7 +108,7 @@ def recipe(id):
     token = request.cookies.get('id')
     auth = False
     # if there is not a cookie then they cannot submit a comment
-    if token != None:
+    if db.check_token(token) != []:
         auth = True
     the_recipe = db.get_recipe_by_id(id)
     title = the_recipe[1]
@@ -118,18 +117,25 @@ def recipe(id):
     source = the_recipe[4]
     the_id = the_recipe[0]
     comments = db.get_comment_by_recipe_id(the_id)
+    print(comments)
     template = render_template('recipe.html', title=title, 
                             ingredients_list=ingredients_amount, 
                             directions_list=directions, original=source, id=the_id, comments_list=comments, auth=auth)
+
     return make_respond_with_cookie(the_id, template)
 
 
 @app.route('/comment', methods=['POST'])
 def submit_comment():
+    comment = request.form['submit-comment']
+    print("Here")
+    print(comment)
     token = request.cookies.get('id')
     data = db.check_token(token)
+    userid = data[0]
     recipe_id = request.cookies.get('recipeid')
-    return render_template(recipe_id)
+    db.insert_comment(userid, recipe_id, comment)
+    return redirect('/recipe/%s' % str(recipe_id))
     
 @app.route('/randomRecipe')
 def generate_random_recipe():
@@ -137,14 +143,9 @@ def generate_random_recipe():
 
 
 def make_respond_with_cookie(recipeid, template):
-    token_exist = False
-    token = request.cookies.get('id')
     response = make_response(template)
-    if db.check_token(token) != []:
-        token_exist = True
-        response.set_cookie('recipeid', recipeid)
-        if token_exist:
-            response.set_cookie('id', token)
+    response.set_cookie('recipeid', str(recipeid).encode('utf-8'))
+
     return response
     
 if __name__ == "__main__":

@@ -82,8 +82,8 @@
         <ul style="list-style-type:none;">
           {% for comment in comments_list %}
           <div id='the-comment'>
-            <b><p>{ comment[0] }:</p></b><br>
-            <p>{ comment[1] }</p>
+            <b><p>{{ comment[0] }}:</p></b><br>
+            <p>{{ comment[1] }}</p>
           </div><br>
           {% endfor %}
         </ul>
@@ -93,7 +93,7 @@
       <div id='comments-form'>
         <h3>Submit a comment!</h3>
         <form id='comment-form' action='/comment' method='POST'>
-          <input id='comment-field' type='text'><br>
+          <input id='comment-field' type='text' name='submit-comment'><br>
           <input type='submit' type='Submit' value='Submit'>
         </form>
       </div>
