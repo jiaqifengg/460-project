@@ -178,13 +178,6 @@ class database():
 
         return False
     
-
-    def check_token(self, token):
-        # return [] when the token is not exist
-        # return [id, username] when token is exist
-
-
-    
     def fill_category_table(self):
 
         #Creates an array of recipes containing chicken, and then inserts into the categories table
@@ -257,7 +250,7 @@ class database():
             ids_title.append((id, title))
         # print(ids_title)
         return ids_title
-        
+
 
     def get_recipe_by_id(self, recipe_id):
         pass
