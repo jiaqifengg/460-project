@@ -1,3 +1,4 @@
+import re
 import psycopg2
 from database.dbconfig import config
 import hashlib
@@ -52,8 +53,8 @@ class database():
         # make sure to check the comment is not empty when insert 
         # create trigger
         comment_table = """CREATE TABLE IF NOT EXISTS comments(
-                            userid INT UNIQUE,
-                            recipeid INT UNIQUE,
+                            userid INT,
+                            recipeid INT,
                             comment TEXT NOT NULL,
                             FOREIGN KEY (userid) REFERENCES users(userid),
                             FOREIGN KEY (recipeid) REFERENCES recipes(recipeid)
@@ -66,6 +67,7 @@ class database():
         # This FUNCTION SHOULD ONLY RUN ONCE
 
         # self.after_recipes_imported()
+        # self.set_up_helper_change_administrator()
         self.connection.commit()
 
 
@@ -187,7 +189,6 @@ class database():
             return []
         return user[0]
 
-
     def get_recipes(self, ingredient_list):
         query = """SELECT * FROM recipes WHERE %s && ingredients"""
         # print(query % ingredient_list)
@@ -202,8 +203,62 @@ class database():
         # print(ids_title)
         return ids_title
         
+    def check_recipeid_userid_exist(self, userid, recipeid):
+        if type(userid) == int and type(recipeid) == int:
+            # check if the userid exists
+            sql = """SELECT userid
+                    FROM users
+                    WHERE userid="""
+            self.cursor.execute(sql + str(userid))
+            userid = self.cursor.fetchall()
+            if len(userid) == 0:
+                return False
+            
+            # check if the recipeid exists
+            sql = """SELECT recipeid
+                    FROM recipes
+                    WHERE recipeid="""
+            self.cursor.execute(sql + str(recipeid))
+            recipeid = self.cursor.fetchall()
+            if len(userid) == 0:
+                return False
 
-    
+            return True
+        
+        return False
+
+    def insert_comment(self, userid, recipeid, comment):
+        sql = """INSERT INTO comments (userid, recipeid, comment)
+                    VALUES (%s, %s, %s)"""
+        val = (userid, recipeid, comment)
+        self.cursor.execute(sql, val)
+        self.connection.commit()
+        
+    def get_comment_by_recipe_id(self, recipeid):
+        # return [(username, comment), (username, comment)....] 
+        
+        sql = """SELECT userid, comment
+                    FROM comments
+                    WHERE recipeid=%s"""
+        val = (recipeid,)
+        self.cursor.execute(sql, val)
+        comments = self.cursor.fetchall()
+
+        if len(comments) == 0:
+            return []
+
+        else:
+            length = len(comments)
+            for i in range(0, length):
+                sql = """SELECT username
+                        FROM users
+                        WHERE userid="""
+                userid = comments[i][0]
+                self.cursor.execute(sql + str(userid))
+                username = self.cursor.fetchall()[0][0]
+                result_tuple = (username, comments[i][1])
+                comments[i] = result_tuple
+        return comments
 
     
 def hash_function(input):
