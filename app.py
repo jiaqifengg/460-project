@@ -84,8 +84,20 @@ def find_recipes():
 
 @app.route('/recipe/<id>', methods=['GET'])
 def recipe(id):
-    print(id)
-    return render_template('recipe.html')
+    the_recipe = db.get_recipe_by_id(id)
+    title = the_recipe[1]
+    ingredients_amount = the_recipe[2]
+    directions = the_recipe[3]
+    source = the_recipe[4]
+    id = the_recipe[0]
+    print(the_recipe)
+    return render_template('recipe.html', title=title, 
+                            ingredients_list=ingredients_amount, 
+                            directions_list=directions, original=source, id=id)
+
+@app.route('/comment/<id>', methods=['POST'])
+def submit_comment(id):
+    pass
 
 
 if __name__ == "__main__":

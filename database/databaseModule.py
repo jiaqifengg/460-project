@@ -257,7 +257,11 @@ class database():
         
 
     def get_recipe_by_id(self, recipe_id):
-        pass
+        query = """SELECT * FROM recipes WHERE recipeid=%s"""
+        self.cursor.execute(query, recipe_id)
+        results = self.cursor.fetchall()
+        self.connection.commit()
+        return results[0]
 
 def hash_function(input):
     new_pw = input.encode()
