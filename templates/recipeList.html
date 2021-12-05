@@ -45,10 +45,10 @@
     </div>
     <h1>{{ total_recipes }} Recipes Available</h1>
     <div id="the_recipes"></div>
-      <ul style="list-style-type:none;"">
+      <ul style="list-style-type:none;">
           {% for recipeid in recipe_list %}
             <div id='recipe-block'>
-              <li><a href="/recipe/{{ recipeid[0] }}"">{{ recipeid[1] }}</a></li>
+              <a href="/recipe/{{ recipeid[0] }}">{{ recipeid[1] }}</a>
             </div>
           {% endfor %}
       </ul>

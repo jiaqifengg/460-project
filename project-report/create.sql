@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS comments(
     FOREIGN KEY (recipeid) REFERENCES recipes(recipeid)
 );
 
-COPY persons(first_name, last_name, dob, email)
-FROM 'C:...\CSE 460\Project\460-project\460-project\project-report\recipes.csv'
+COPY recipes(recipeid, title, ingredients, directions, from_source, from_link, ner)
+FROM 'project-report\recipes.csv'
 DELIMITER ','
 CSV HEADER;
 

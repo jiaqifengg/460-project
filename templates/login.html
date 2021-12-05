@@ -19,25 +19,25 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-light" id="myId">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#">Recipes</a>
+  <nav class="navbar navbar-light" id="myId">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Recipes</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/register" id="register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+        </ul>
+      </div>
+  </nav>
+  <form id='login-form' action='/login' method='POST'>
+      <div class='container'>
+          <h1>Login</h1>
+          <div class='inputbox'>
+            <input id='username-field' type='text' placeholder='Username' name='username' required>
+            <input id='pw-field' type='password' placeholder='Password' name='password' required>
+            <input type='submit' type='Submit' value='Login'>
           </div>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="/register" id="register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-          </ul>
-        </div>
-    </nav>
-    <form id='login-form' action='/login' method='POST'>
-        <div class='container'>
-            <h1>Login</h1>
-            <div class='inputbox'>
-              <input id='username-field' type='text' placeholder='Username' name='username' required>
-              <input id='pw-field' type='password' placeholder='Password' name='password' required>
-              <input type='submit' type='Submit' value='Login'>
-            </div>
-        </div>
-    </form>
+      </div>
+  </form>
 </body>
 </html>
