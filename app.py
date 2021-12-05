@@ -23,13 +23,6 @@ def index():
         if comment != '':
             db.insert_comment(userid, recipeid, comment)
 
-    #print(db.get_comment_by_recipe_id(100))
-
-
-    # recipeid_generator
-    ingredient = ["Tofu", "Beef"]
-    print(db.recipeid_generator(ingredient))
-
     return render_template('home.html')
 
 
@@ -117,6 +110,10 @@ def recipe(id):
 @app.route('/comment/<id>', methods=['POST'])
 def submit_comment(id):
     print(id)
+
+@app.rout('/randomRecipe')
+def generate_random_recipe():
+    ingredients = request.args.getlist('ingredients')
 
 
 if __name__ == "__main__":
