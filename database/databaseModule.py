@@ -60,6 +60,13 @@ class database():
                         );"""
         self.cursor.execute(comment_table)
 
+        # create categories table
+        category_table = """CREATE TABLE IF NOT EXISTS categories(
+                            category VARCHAR(50) NOT NULL,
+                            recipes integer[]
+                        );"""
+        self.cursor.execute(category_table)
+
         # uncomment this function after you imported the recipe
         # import recipes.csv to recipes table 
         # with Header yes and Delimeter ,
@@ -68,6 +75,8 @@ class database():
         # self.set_up_helper_after_recipes_imported()
         
         # self.set_up_helper_change_administrator()
+
+        self.get_category_array()
 
         self.connection.commit()
 
@@ -166,6 +175,11 @@ class database():
         return
 
     
+    def get_category_array(self):
+        chicken = "select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,beef,%'"
+        self.cursor.execute(chicken)
+        myresult = self.cursor.fetchall()
+        print(myresult)
 
     
 
