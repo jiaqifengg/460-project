@@ -135,7 +135,6 @@ class database():
         self.cursor.execute(update_admin_password, hash_admin_password)
         self.connection.commit()
 
-
     def set_up_helper_fill_category_table(self):
 
         #Creates an array of recipes containing chicken, and then inserts into the categories table
@@ -172,7 +171,6 @@ class database():
         tofuArray = self.cursor.fetchall()
         insert_tofu = "INSERT INTO categories (category, recipes) VALUES ('Tofu', %s);"
         self.cursor.execute(insert_tofu, (tofuArray,))
-
 
 
     def check_user_exist(self, username):
