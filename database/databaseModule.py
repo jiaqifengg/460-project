@@ -180,10 +180,10 @@ class database():
     
     def set_up_helper5_create_view_category_count(self):
         sql = """CREATE VIEW category_count AS
-                SELECT category, COUNT(recipes)
+                SELECT category, cardinality(recipes)
                 FROM categories
                 GROUP BY category
-                ORDER BY COUNT(recipes)"""
+                ORDER BY cardinality(recipes) DESC"""
         
         self.cursor.execute(sql)
         self.connection.commit()
@@ -254,6 +254,7 @@ class database():
         # when there is no token match with the input token
         if len(user) == 0:
             return []
+        
         return user[0]
 
     def get_recipes(self, ingredient_list):
