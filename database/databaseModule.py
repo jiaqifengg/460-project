@@ -1,7 +1,7 @@
-import re
 import psycopg2
 from database.dbconfig import config
 import hashlib
+import random
 
 # be careful when dropping userid and recipeid 
 # when user.userid delete 
@@ -72,14 +72,14 @@ class database():
         # with Header yes and Delimeter ,
         # SET UP HELPER FUNCTIONS SHOULD BE ONLY RUN ONCE AFTER IMPORT RECIPES TABLES
         
-        # self.set_up_helper_after_recipes_imported()
-        # self.set_up_helper_change_administrator()
-        # self.set_up_helper_fill_category_table()
+        # self.set_up1_helper_after_recipes_imported()
+        # self.set_up2_helper_change_administrator()
+        #self.set_up3_helper_fill_category_table()
 
         self.connection.commit()
 
 
-    def set_up_helper_after_recipes_imported(self):
+    def set_up_helper1_after_recipes_imported(self):
         # check if there is 1 inside 
         check_admin_exist = "SELECT userid FROM users WHERE userid=1;"
         self.cursor.execute(check_admin_exist)
@@ -119,7 +119,7 @@ class database():
         self.connection.commit()
     
 
-    def set_up_helper_change_administrator(self):
+    def set_up_helper2_change_administrator(self):
         # hash the password of administrator
         hash_admin_password = hash_function('cse460temp')
 
@@ -136,7 +136,7 @@ class database():
         self.connection.commit()
 
 
-    def set_up_helper_fill_category_table(self):
+    def set_up_helper3_fill_category_table(self):
 
         #Creates an array of recipes containing chicken, and then inserts into the categories table
         chicken = "select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,chicken,%'"
@@ -309,6 +309,40 @@ class database():
                 result_tuple = (username, comments[i][1])
                 comments[i] = result_tuple
         return comments
+
+    
+    def recipeid_generator(self, list_of_food):
+        # using subqueries for union
+        # input has to be ["Beef", "Chicken", "Fish", "Pork", "Tofu"]
+        resut = 0 # when there is no correct result 
+
+        sql = """SELECT recipes
+                    FROM categories
+                    WHERE category=%s """
+
+        sql_format = """SELECT recipes
+                    FROM categories
+                    WHERE category=%s """
+        
+        val = (list_of_food[0],)
+        for i in range(1, len(list_of_food)):
+            sql += "UNION "
+            sql += sql_format
+            val = val + (list_of_food[i],)
+        
+        self.cursor.execute(sql, val)
+        recipes = self.cursor.fetchall()
+
+        if len(recipes) > 0:
+            recipes_list = []
+            for i in recipes:
+                recipes_list += i[0]
+
+            result = random.choice(recipes_list)
+
+            return result
+
+
 
 def hash_function(input):
     new_pw = input.encode()

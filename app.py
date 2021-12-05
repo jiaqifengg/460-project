@@ -11,7 +11,7 @@ def index():
 
     # get the token
     token = request.cookies.get('id')
-    print(db.check_token(token))
+    #print(db.check_token(token))
 
     ## when insert comment 
     # check if userid and recipeid exist
@@ -23,7 +23,12 @@ def index():
         if comment != '':
             db.insert_comment(userid, recipeid, comment)
 
-    print(db.get_comment_by_recipe_id(100))
+    #print(db.get_comment_by_recipe_id(100))
+
+
+    # recipeid_generator
+    ingredient = ["Tofu", "Beef"]
+    print(db.recipeid_generator(ingredient))
 
     return render_template('home.html')
 
