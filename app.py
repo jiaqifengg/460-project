@@ -34,7 +34,7 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register/', methods=['GET', 'POST'])
 def register():
     msg = "Register successfully."
 
