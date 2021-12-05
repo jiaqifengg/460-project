@@ -67,13 +67,14 @@ class database():
                         );"""
         self.cursor.execute(category_table)
 
-        # uncomment this function after you imported the recipe
         # import recipes.csv to recipes table 
         # with Header yes and Delimeter ,
-        # The following FUNCTIONS SHOULD ONLY RUN ONCE
-
+        # SET UP HELPER FUNCTIONS SHOULD BE ONLY RUN ONCE AFTER IMPORT RECIPES TABLES
+        
         # self.set_up_helper_after_recipes_imported()
         # self.set_up_helper_change_administrator()
+        # self.set_up_helper_fill_category_table
+
         self.connection.commit()
 
 
@@ -134,6 +135,45 @@ class database():
         self.connection.commit()
 
 
+    def set_up_helper_fill_category_table(self):
+
+        #Creates an array of recipes containing chicken, and then inserts into the categories table
+        chicken = "select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,chicken,%'"
+        self.cursor.execute(chicken)
+        chickenArray = self.cursor.fetchall()
+        insert_chicken = "INSERT INTO categories (category, recipes) VALUES ('Chicken', %s);"
+        self.cursor.execute(insert_chicken, (chickenArray,))
+
+        #Creates an array of recipes containing beef, and then inserts into the categories table
+        beef = "select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,beef,%'"
+        self.cursor.execute(beef)
+        beefArray = self.cursor.fetchall()
+        insert_beef = "INSERT INTO categories (category, recipes) VALUES ('Beef', %s);"
+        self.cursor.execute(insert_beef, (beefArray,))
+
+        #Creates an array of recipes containing fish, and then inserts into the categories table
+        fish = "select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,fish,%'"
+        self.cursor.execute(fish)
+        fishArray = self.cursor.fetchall()
+        insert_fish = "INSERT INTO categories (category, recipes) VALUES ('Fish', %s);"
+        self.cursor.execute(insert_fish, (fishArray,))
+
+        #Creates an array of recipes containing pork, and then inserts into the categories table
+        pork = "select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,pork,%'"
+        self.cursor.execute(pork)
+        porkArray = self.cursor.fetchall()
+        insert_pork = "INSERT INTO categories (category, recipes) VALUES ('Pork', %s);"
+        self.cursor.execute(insert_pork, (porkArray,))
+
+        #Creates an array of recipes containing tofu, and then inserts into the categories table
+        tofu = "select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,tofu,%'"
+        self.cursor.execute(tofu)
+        tofuArray = self.cursor.fetchall()
+        insert_tofu = "INSERT INTO categories (category, recipes) VALUES ('Tofu', %s);"
+        self.cursor.execute(insert_tofu, (tofuArray,))
+
+
+
     def check_user_exist(self, username):
         sql = """SELECT userid 
                 FROM users 
@@ -177,43 +217,6 @@ class database():
             return True
 
         return False
-    
-    def fill_category_table(self):
-
-        #Creates an array of recipes containing chicken, and then inserts into the categories table
-        chicken = "select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,chicken,%'"
-        self.cursor.execute(chicken)
-        chickenArray = self.cursor.fetchall()
-        insert_chicken = "INSERT INTO categories (category, recipes) VALUES ('Chicken', %s);"
-        self.cursor.execute(insert_chicken, (chickenArray,))
-
-        #Creates an array of recipes containing beef, and then inserts into the categories table
-        beef = "select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,beef,%'"
-        self.cursor.execute(beef)
-        beefArray = self.cursor.fetchall()
-        insert_beef = "INSERT INTO categories (category, recipes) VALUES ('Beef', %s);"
-        self.cursor.execute(insert_beef, (beefArray,))
-
-        #Creates an array of recipes containing fish, and then inserts into the categories table
-        fish = "select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,fish,%'"
-        self.cursor.execute(fish)
-        fishArray = self.cursor.fetchall()
-        insert_fish = "INSERT INTO categories (category, recipes) VALUES ('Fish', %s);"
-        self.cursor.execute(insert_fish, (fishArray,))
-
-        #Creates an array of recipes containing pork, and then inserts into the categories table
-        pork = "select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,pork,%'"
-        self.cursor.execute(pork)
-        porkArray = self.cursor.fetchall()
-        insert_pork = "INSERT INTO categories (category, recipes) VALUES ('Pork', %s);"
-        self.cursor.execute(insert_pork, (porkArray,))
-
-        #Creates an array of recipes containing tofu, and then inserts into the categories table
-        tofu = "select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,tofu,%'"
-        self.cursor.execute(tofu)
-        tofuArray = self.cursor.fetchall()
-        insert_tofu = "INSERT INTO categories (category, recipes) VALUES ('Tofu', %s);"
-        self.cursor.execute(insert_tofu, (tofuArray,))
 
 
     def check_token(self, token):
