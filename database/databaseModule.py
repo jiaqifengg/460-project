@@ -1,6 +1,6 @@
 import psycopg2
-import csv
 from database.dbconfig import config
+import hashlib
 
 # be careful when dropping userid and recipeid 
 # when user.userid delete 
@@ -69,14 +69,14 @@ class database():
         self.connection.commit()
 
 
-    def after_recipes_imported(self):
+    def set_up_helper_after_recipes_imported(self):
         
         # check if there is 1 inside 
         check_admin_exist = "SELECT userid FROM users WHERE userid=1;"
         self.cursor.execute(check_admin_exist)
         result = self.cursor.fetchall()
         if len(result) == 0:
-
+            
             # insert userid 1 refer to administrator
             # 1 is administrator 
             insert_1 = "INSERT INTO users (username, password) VALUES ('Administrator', 'cse460temp');"
@@ -87,13 +87,6 @@ class database():
         # drop from_link
         drop_from_link = alter_recipes + "DROP COLUMN IF EXISTS from_link;"
         self.cursor.execute(drop_from_link)
-
-        # check if ingredients_amount exist
-        #check_ingredient_amount = "SELECT column_name "
-        #check_ingredient_amount += "FROM information_schema.columns "
-        #check_ingredient_amount += "WHERE table_name='recipes' and column_name='ingredients_amounts';"
-        #self.cursor.execute(check_ingredient_amount)
-        #print(self.cursor.fetchall())
 
         # rename ingredients to ingredients_amount
         rename_ingredients_to_ingredients_amount = alter_recipes + "RENAME COLUMN ingredients TO ingredients_amount;"
@@ -116,6 +109,70 @@ class database():
 
         self.connection.commit()
     
+    def set_up_helper_change_administrator(self):
+        # hash the password of administrator
+        hash_admin_password = hash_function('cse460temp')
+
+        # change the length of char password can hold
+        extend_password_len = """ALTER TABLE users ALTER COLUMN password TYPE character varying(512);"""
+        self.cursor.execute(extend_password_len)
+        self.connection.commit()
+
+        # update the password of administrator
+        update_admin_password = "UPDATE users "
+        update_admin_password += "SET password = '" + hash_admin_password + "' "
+        update_admin_password += "WHERE username = 'Administrator';"
+        self.cursor.execute(update_admin_password)
+        self.connection.commit()
+
+
+
+    def check_user_exist(self, username):
+        sql = """SELECT userid 
+                FROM users 
+                WHERE username=%s;"""
+        val = (username,)
+        self.cursor.execute(sql, val)
+        myresult = self.cursor.fetchall()
+
+        if len(myresult) == 0:
+            return False
+        return True
+   
+    def register(self, username, password): 
+        # make sure to check if the username exist before using this function
+        sql = "INSERT INTO users (username, password)"
+        sql += "VALUES (%s, %s)"
+        hashed_password = hash_function(password)
+        val = (username, hashed_password)
+        self.cursor.execute(sql, val)
+        self.connection.commit()
+
+    def login(self, username, password):
+        # make sure to check if the username exist before using this function        
+        sql = "SELECT password FROM users WHERE username=(%s);"
+        val = (username, )
+        self.cursor.execute(sql, val)
+        hashed_password = self.cursor.fetchall()[0][0]
+        if hash_function(password) == hashed_password:
+            return True
+        return False
+
+    
+    def update_hash(self, username):
+        return
+
+    
+
+    
+
+    
+
+
+def hash_function(password):
+    new_pw = password.encode()
+    hash_pw = hashlib.sha256(new_pw).hexdigest()
+    return hash_pw
     
 
 
