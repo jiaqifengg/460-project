@@ -56,7 +56,7 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/register/', methods=['GET', 'POST'])
+@app.route('/register', methods=['POST', 'GET'])
 def register():
     token = request.cookies.get('id')
     if db.check_token(token) != []:# no access to /register
@@ -111,12 +111,12 @@ def recipe(id):
     if db.check_token(token) != []:
         auth = True
     the_recipe = db.get_recipe_by_id(id)
-    print(the_recipe)
+    # print(the_recipe)
     title = the_recipe[1]
     ingredients_amount = the_recipe[2]
     directions = the_recipe[3]
     source = the_recipe[4]
-    print(source)
+    # print(source)
     the_id = the_recipe[0]
     comments = db.get_comment_by_recipe_id(the_id)
     print(comments)

@@ -351,10 +351,16 @@ class database():
                         FROM users
                         WHERE userid="""
                 userid = comments[i][0]
+                print(userid)
                 self.cursor.execute(sql + str(userid))
-                username = self.cursor.fetchall()[0][0]
-                result_tuple = (username, comments[i][1])
-                comments[i] = result_tuple
+                result = self.cursor.fetchall()
+                print(result)
+                if len(result) == 0:
+                    return []
+                else:
+                    username = result[0][0]
+                    result_tuple = (username, comments[i][1])
+                    comments[i] = result_tuple
         return comments
 
     

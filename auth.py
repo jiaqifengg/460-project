@@ -2,8 +2,10 @@ import re
 
 def username_vaild(username):
     # A maximum length of 20
-    if len(username) > 8:
-        return [False, 'Username fails for registration due to: A maximum length of 8']
+    if len(username) < 8:
+        return [False, 'Username fails for registration due to: A minimum length of 8']
+    elif len(username) > 16:
+        return [False, 'Username fails for registration due to: A maximum length of 16']
     return [True]
 
 def password_vaild(password):
