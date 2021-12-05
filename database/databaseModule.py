@@ -141,13 +141,25 @@ class database():
         if len(myresult) == 0:
             return False
         return True
-
-    
-    def register(self, username, password):
-        return
+   
+    def register(self, username, password): 
+        # make sure to check if the username exist before using this function
+        sql = "INSERT INTO users (username, password)"
+        sql += "VALUES (%s, %s)"
+        hashed_password = hash_function(password)
+        val = (username, hashed_password)
+        self.cursor.execute(sql, val)
+        self.connection.commit()
 
     def login(self, username, password):
-        return
+        # make sure to check if the username exist before using this function        
+        sql = "SELECT password FROM users WHERE username=(%s);"
+        val = (username, )
+        self.cursor.execute(sql, val)
+        hashed_password = self.cursor.fetchall()[0][0]
+        if hash_function(password) == hashed_password:
+            return True
+        return False
 
     
     def update_hash(self, username):
