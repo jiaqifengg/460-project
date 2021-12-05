@@ -21,13 +21,16 @@
       }
       #comments-area{
         border: 1px solid grey;
-        position: fixed;
         width: 90%;
       }
       #the-comment{
         padding-left: 5px;
         border: 1px solid grey;
         width: 900px;
+      }
+      #comments-form{
+        padding-left: 10px;
+        padding-bottom: 10px;
       }
     </style>
 </head>
@@ -77,12 +80,25 @@
             <p>{ comment[1] }</p>
           </div>
           {% endfor %}
+          <div id='the-comment'>
+            <b><p>kllyfng123:</p></b>
+            <p>this is a comment.</p>
+          </div><br>
+          <div id='the-comment'>
+            <b><p>kllyfng123:</p></b>
+            <p>this is a comment.</p>
+          </div><br>
+          <div id='the-comment'>
+            <b><p>kllyfng123:</p></b>
+            <p>this is a comment.</p>
+          </div><br>
         </ul>
     </div>
     <br>
     <div id='comments-form'>
-      <form id='comment-form' action='/comment/{ id }' method='POST'>
-        <input id='comment-field' type='text' name='comment'>
+      <h3>Submit a comment!</h3>
+      <form id='comment-form' action='/comment' method='POST'>
+        <input id='comment-field' type='text'><br>
         <input type='submit' type='Submit' value='Submit'>
       </form>
     </div>

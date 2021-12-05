@@ -106,11 +106,12 @@ def recipe(id):
     print(the_recipe)
     return render_template('recipe.html', title=title, 
                             ingredients_list=ingredients_amount, 
-                            directions_list=directions, original=source, id=the_id)
+                            directions_list=directions, original=source, id=the_id, comments_list=comments)
+
 
 @app.route('/comment/<id>', methods=['POST'])
 def submit_comment(id):
-    pass
+    print(id)
 
 
 if __name__ == "__main__":

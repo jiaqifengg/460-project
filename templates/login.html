@@ -16,13 +16,26 @@
       #myId {
         background-color: #8fa4db;
       }
+      #login-form {
+        position: fixed;
+        top: 35%;
+        left: 38%;
+        margin-top: -50px;
+        margin-left: -50px;
+        width: 487px;
+        border: 1px solid black;
+      }
+      input {
+        margin-bottom: 10px;
+        width: 40%;
+      }
     </style>
 </head>
 <body>
   <nav class="navbar navbar-light" id="myId">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Recipes</a>
+          <a class="navbar-brand" href="/">Recipes</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="/register" id="register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
@@ -33,8 +46,8 @@
       <div class='container'>
           <h1>Login</h1>
           <div class='inputbox'>
-            <input id='username-field' type='text' placeholder='Username' name='username' required>
-            <input id='pw-field' type='password' placeholder='Password' name='password' required>
+            <input id='username-field' type='text' placeholder='Username' name='username' required><br>
+            <input id='pw-field' type='password' placeholder='Password' name='password' required><br>
             <input type='submit' type='Submit' value='Login'>
           </div>
       </div>
