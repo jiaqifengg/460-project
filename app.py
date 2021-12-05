@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, make_response
+from werkzeug.wrappers import Response
 from database.databaseModule import database
 from auth import *
 
@@ -56,7 +57,6 @@ def login():
 
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
-    msg = "Register successfully."
 
     token = request.cookies.get('id')
     print(token)
@@ -117,6 +117,19 @@ def recipe(id):
 @app.route('/comment/<id>', methods=['POST'])
 def submit_comment(id):
     print(id)
+
+
+def make_respond_with_cookie(recipeid, templete):
+    token_exist = False
+    token = request.cookies.get('id')
+    if db.check_token(token) != []:
+        token_exist = True
+        response = make_response(templete)
+        response.set_cookie('recipeid', recipeid)
+        if token_exist:
+            response.set_cookie('id', token)
+    return response
+    
 
 
 if __name__ == "__main__":
