@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, make_response
 #from flask_migrate import Migrate
 import sys
 from database.databaseModule import database
@@ -15,6 +15,11 @@ db = database(app)
 
 @app.route('/', methods=['GET'])
 def index():
+
+    # get the token
+    token = request.cookies.get('id')
+    print(db.check_token(token))
+
     return render_template('home.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -24,14 +29,16 @@ def login():
         password = request.form.get('password')
 
         if db.check_user_exist(username):
-            if db.login(username, password):
-                return 'log in successfully'
+
+            token = authentication_generator()
+            if db.login(username, password,token):
+                respone = make_response('log in successfully')
+                respone.set_cookie('id', token)
+                return respone
             else:
                 return "Please enter the correct password."        
         else:
             return 'Username does not exist.'
-
-
 
     return render_template('login.html')
 
@@ -40,36 +47,33 @@ def login():
 def register():
     msg = "Register successfully."
 
+    token = request.cookies.get('id')
+    print(token)
+
     if request.method == "POST" and 'username' in request.form and 'password' in request.form:
         # vaild password: 12345asdfASD!
 
         username = request.form.get('username')
         password = request.form.get('password')
 
-        msg = "Register successfully."
-        
         # check if the username exist
         if db.check_user_exist(username):
-            msg = 'Username already exists.'
-            return msg
+            return 'Username already exists.'
 
         # check username
         check_username = username_vaild(username)
         if not check_username[0]:
-            msg = check_username[1]
-            return msg
+            return check_username[1]
             
         # check password
         check_password = password_vaild(password)
         if not check_password[0]:
-            msg = check_password[1]
-            return msg
+            return check_password[1]
         
         # successfully register
         # store username and password in database
         db.register(username, password)
-        
-        return msg
+        return "Register successfully."
         
     return render_template('register.html')
 

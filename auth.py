@@ -2,8 +2,8 @@ import re
 
 def username_vaild(username):
     # A maximum length of 20
-    if len(username) > 20:
-        return [False, 're fails for registration due to: A maximum length of 50']
+    if len(username) > 8:
+        return [False, 'Username fails for registration due to: A maximum length of 8']
     return [True]
 
 def password_vaild(password):
@@ -49,3 +49,4 @@ def authentication_generator():
     char = string.ascii_letters + string.digits + string.punctuation
     token = ''.join(random.choice(char) for i in range(32))
     return token
+

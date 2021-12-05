@@ -122,10 +122,10 @@ class database():
         self.connection.commit()
 
         # update the password of administrator
-        update_admin_password = "UPDATE users "
-        update_admin_password += "SET password = '" + hash_admin_password + "' "
-        update_admin_password += "WHERE username = 'Administrator';"
-        self.cursor.execute(update_admin_password)
+        update_admin_password = """UPDATE users 
+                                SET password=(%s) 
+                                WHERE username = 'Administrator';"""
+        self.cursor.execute(update_admin_password, hash_admin_password)
         self.connection.commit()
 
 
@@ -151,31 +151,56 @@ class database():
         self.cursor.execute(sql, val)
         self.connection.commit()
 
-    def login(self, username, password):
+    def login(self, username, password, token):
         # make sure to check if the username exist before using this function        
         sql = "SELECT password FROM users WHERE username=(%s);"
         val = (username, )
         self.cursor.execute(sql, val)
         hashed_password = self.cursor.fetchall()[0][0]
+
+        # check if the password is correct
         if hash_function(password) == hashed_password:
+            # update token
+            sql = """UPDATE users
+                    SET logged_token=%s
+                    WHERE username=%s;"""
+            hash_token = hash_function(token)
+            val = (hash_token, username)
+            self.cursor.execute(sql, val)
+            self.connection.commit()
             return True
+
         return False
+    
+    def check_token(self, token):
+        # return [] when the token is not exist
+        # return [id, username] when token is exist
+
+        # check if token exist
+        if token == None:
+            return []
+        
+        hash_token = hash_function(token)
+        sql = """SELECT userid, username
+                FROM users
+                WHERE logged_token=(%s)"""
+        val = (hash_token,)
+        self.cursor.execute(sql,val)
+        user = self.cursor.fetchall()
+
+        # when there is no token match with the input token
+        if len(user) == 0:
+            return []
+        return user[0]
+        
 
     
-    def update_hash(self, username):
-        return
 
     
-
-    
-
-    
-
-
-def hash_function(password):
-    new_pw = password.encode()
-    hash_pw = hashlib.sha256(new_pw).hexdigest()
-    return hash_pw
+def hash_function(input):
+    new_pw = input.encode()
+    hash_input = hashlib.sha256(new_pw).hexdigest()
+    return hash_input
     
 
 
