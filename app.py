@@ -54,7 +54,7 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register/', methods=['GET', 'POST'])
 def register():
     msg = "Register successfully."
 
@@ -101,8 +101,21 @@ def find_recipes():
 
 @app.route('/recipe/<id>', methods=['GET'])
 def recipe(id):
-    print(id)
-    return render_template('recipe.html')
+    the_recipe = db.get_recipe_by_id(id)
+    title = the_recipe[1]
+    ingredients_amount = the_recipe[2]
+    directions = the_recipe[3]
+    source = the_recipe[4]
+    the_id = the_recipe[0]
+    comments = db.get_comment_by_recipe_id(the_id)
+    print(the_recipe)
+    return render_template('recipe.html', title=title, 
+                            ingredients_list=ingredients_amount, 
+                            directions_list=directions, original=source, id=the_id)
+
+@app.route('/comment/<id>', methods=['POST'])
+def submit_comment(id):
+    pass
 
 
 if __name__ == "__main__":

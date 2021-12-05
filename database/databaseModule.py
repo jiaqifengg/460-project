@@ -135,8 +135,8 @@ class database():
         self.cursor.execute(update_admin_password, hash_admin_password)
         self.connection.commit()
 
-
     def set_up_helper3_fill_category_table(self):
+
 
         #Creates an array of recipes containing chicken, and then inserts into the categories table
         chicken = "select recipeid from recipes where CONCAT(',', ingredients, ',') like '%,chicken,%'"
@@ -172,7 +172,6 @@ class database():
         tofuArray = self.cursor.fetchall()
         insert_tofu = "INSERT INTO categories (category, recipes) VALUES ('Tofu', %s);"
         self.cursor.execute(insert_tofu, (tofuArray,))
-
 
 
     def check_user_exist(self, username):
@@ -254,6 +253,14 @@ class database():
             ids_title.append((id, title))
         # print(ids_title)
         return ids_title
+
+    def get_recipe_by_id(self, id):
+        query = """SELECT * FROM recipes WHERE recipeid=%s"""
+        vals = (id,)
+        self.cursor.execute(query, vals)
+        reuslts = self.cursor.fetchall()
+        self.connection.commit()
+        return reuslts[0]
         
     def check_recipeid_userid_exist(self, userid, recipeid):
         if type(userid) == int and type(recipeid) == int:
