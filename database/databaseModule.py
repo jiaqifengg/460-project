@@ -252,6 +252,14 @@ class database():
             ids_title.append((id, title))
         # print(ids_title)
         return ids_title
+
+    def get_recipe_by_id(self, id):
+        query = """SELECT * FROM recipes WHERE recipeid=%s"""
+        vals = (id,)
+        self.cursor.execute(query, vals)
+        reuslts = self.cursor.fetchall()
+        self.connection.commit()
+        return reuslts[0]
         
     def check_recipeid_userid_exist(self, userid, recipeid):
         if type(userid) == int and type(recipeid) == int:

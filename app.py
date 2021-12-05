@@ -101,11 +101,12 @@ def recipe(id):
     ingredients_amount = the_recipe[2]
     directions = the_recipe[3]
     source = the_recipe[4]
-    id = the_recipe[0]
+    the_id = the_recipe[0]
+    comments = db.get_comment_by_recipe_id(the_id)
     print(the_recipe)
     return render_template('recipe.html', title=title, 
                             ingredients_list=ingredients_amount, 
-                            directions_list=directions, original=source, id=id)
+                            directions_list=directions, original=source, id=the_id)
 
 @app.route('/comment/<id>', methods=['POST'])
 def submit_comment(id):
