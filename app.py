@@ -1,17 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, make_response
-#from flask_migrate import Migrate
-import sys
 from database.databaseModule import database
 from auth import *
-# from flask_wtf import FlaskForm
-# from flask_bootstrap import Bootstrap
-# from flask_select2 import Select2
-# from flask_login import login_required, current_user
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:cse460pw@localhost/cse460db'
 db = database(app)
-#migrate = Migrate(app, db)
 
 @app.route('/', methods=['GET'])
 def index():

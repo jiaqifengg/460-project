@@ -72,9 +72,7 @@ class database():
         # SET UP HELPER FUNCTIONS SHOULD BE ONLY RUN ONCE AFTER IMPORT RECIPES TABLES
         
         # self.set_up_helper_after_recipes_imported()
-        
         # self.set_up_helper_change_administrator()
-
         # self.set_up_helper_fill_category_table
 
         self.connection.commit()
@@ -119,6 +117,7 @@ class database():
 
         self.connection.commit()
     
+
     def set_up_helper_change_administrator(self):
         # hash the password of administrator
         hash_admin_password = hash_function('cse460temp')
@@ -134,6 +133,7 @@ class database():
                                 WHERE username = 'Administrator';"""
         self.cursor.execute(update_admin_password, hash_admin_password)
         self.connection.commit()
+
 
     def set_up_helper_fill_category_table(self):
 
@@ -173,6 +173,7 @@ class database():
         self.cursor.execute(insert_tofu, (tofuArray,))
 
 
+
     def check_user_exist(self, username):
         sql = """SELECT userid 
                 FROM users 
@@ -185,6 +186,7 @@ class database():
             return False
         return True
    
+
     def register(self, username, password): 
         # make sure to check if the username exist before using this function
         sql = "INSERT INTO users (username, password)"
@@ -193,6 +195,7 @@ class database():
         val = (username, hashed_password)
         self.cursor.execute(sql, val)
         self.connection.commit()
+
 
     def login(self, username, password, token):
         # make sure to check if the username exist before using this function        
@@ -251,9 +254,11 @@ class database():
             ids_title.append((id, title))
         # print(ids_title)
         return ids_title
-       
+        
 
-    
+    def get_recipe_by_id(self, recipe_id):
+        pass
+
 def hash_function(input):
     new_pw = input.encode()
     hash_input = hashlib.sha256(new_pw).hexdigest()
