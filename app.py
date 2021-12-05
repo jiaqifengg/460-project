@@ -20,13 +20,13 @@ def index():
 
     ## when insert comment 
     # check if userid and recipeid exist
-    userid = 4
-    recipeid = 102
-    comment = 'hello'
-    if db.check_recipeid_userid_exist(userid, recipeid):
-        # check if comment is empty
-        if comment != '':
-            db.insert_comment(userid, recipeid, comment)
+    # userid = 4
+    # recipeid = 102
+    # comment = 'hello'
+    # if db.check_recipeid_userid_exist(userid, recipeid):
+    #     # check if comment is empty
+    #     if comment != '':
+    #         db.insert_comment(userid, recipeid, comment)
 
     return render_template('home.html', auth=auth)
 
@@ -183,7 +183,17 @@ def passwordChange():
 
 @app.route('/delete_account')
 def delete_account():
-    return 'Temp'
+    token = request.cookies.get('id')
+    _ = db.check_token(token)
+    if _ != []:
+        username = _[1]
+        db.delete_account(username)
+        return 
+        # return to main page
+    else:
+        return "NOT logged in yet."
+
+    
         
     
 if __name__ == "__main__":
