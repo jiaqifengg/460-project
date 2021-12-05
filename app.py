@@ -180,6 +180,10 @@ def passwordChange():
         else:
             results = db.update_password(userid, username, curr_pw, new_pw)
             return results[1]
+
+@app.route('/delete_account')
+def delete_account():
+    return 'Temp'
         
     
 if __name__ == "__main__":
