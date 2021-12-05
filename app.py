@@ -188,10 +188,12 @@ def delete_account():
     if _ != []:
         username = _[1]
         db.delete_account(username)
-        return 
+        return redirect('/')
         # return to main page
     else:
-        return "NOT logged in yet."
+        return "403 Response"
+    
+
 
     
         
