@@ -44,13 +44,16 @@
                 <a class="navbar-brand" href="/">Recipes</a>
               </div>
               <ul class="nav navbar-nav navbar-right">
-                <li><a href="/register" id="register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-                <li><a href="/login" id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                {% if not auth %}
+                  <li><a href="/register" id="register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                  <li><a href="/login" id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                {% else %}
+                  <li><a href="/settings" id="settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li> -->
+                {% endif %}
               </ul>
             </div>
         </nav>
     </div>
-
     <div id='the-recipe'>
       <h1>{{ title }}</h1>
       <div id='ingredient-list'>
@@ -81,30 +84,21 @@
           <div id='the-comment'>
             <b><p>{ comment[0] }:</p></b><br>
             <p>{ comment[1] }</p>
-          </div>
+          </div><br>
           {% endfor %}
-          <div id='the-comment'>
-            <b><p>kllyfng123:</p></b>
-            <p>this is a comment.</p>
-          </div><br>
-          <div id='the-comment'>
-            <b><p>kllyfng123:</p></b>
-            <p>this is a comment.</p>
-          </div><br>
-          <div id='the-comment'>
-            <b><p>kllyfng123:</p></b>
-            <p>this is a comment.</p>
-          </div><br>
         </ul>
     </div>
     <br>
-    <div id='comments-form'>
-      <h3>Submit a comment!</h3>
-      <form id='comment-form' action='/comment' method='POST'>
-        <input id='comment-field' type='text'><br>
-        <input type='submit' type='Submit' value='Submit'>
-      </form>
-    </div>
-
+    {% if auth %}
+      <div id='comments-form'>
+        <h3>Submit a comment!</h3>
+        <form id='comment-form' action='/comment' method='POST'>
+          <input id='comment-field' type='text'><br>
+          <input type='submit' type='Submit' value='Submit'>
+        </form>
+      </div>
+    {% else %}
+      <h2 style="padding-left: 10px;">Please Login to submit a comment</h2>
+    {% endif %}
 </body>
 </html>

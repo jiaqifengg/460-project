@@ -22,9 +22,12 @@
           <a class="navbar-brand" href="/">Recipes</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
+          {% if not auth %}
+          <li><a href="/register" id="register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+          <li><a href="/login" id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          {% else %}
             <li><a href="/settings" id="settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li> -->
-            <li><a href="/register" id="register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-            <li><a href="/login" id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          {% endif %}
         </ul>
       </div>
     </nav>
