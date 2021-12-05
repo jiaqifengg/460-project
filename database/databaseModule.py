@@ -70,7 +70,6 @@ class database():
 
 
     def set_up_helper_after_recipes_imported(self):
-        
         # check if there is 1 inside 
         check_admin_exist = "SELECT userid FROM users WHERE userid=1;"
         self.cursor.execute(check_admin_exist)
@@ -125,8 +124,6 @@ class database():
         self.cursor.execute(update_admin_password)
         self.connection.commit()
 
-
-
     def check_user_exist(self, username):
         sql = """SELECT userid 
                 FROM users 
@@ -158,22 +155,29 @@ class database():
             return True
         return False
 
-    
     def update_hash(self, username):
         return
 
+    def get_recipes(self, ingredient_list):
+        query = """SELECT * FROM recipes WHERE %s && ingredients"""
+        # print(query % ingredient_list)
+        self.cursor.execute(query, (ingredient_list,))
+        results = self.cursor.fetchall()
+        self.connection.commit()
+        ids_title = []
+        for recipe in results:
+            id = recipe[0]
+            title = recipe[1]
+            ids_title.append((id, title))
+        # print(ids_title)
+        return ids_title
     
-
-    
-
-    
-
-
 def hash_function(password):
     new_pw = password.encode()
     hash_pw = hashlib.sha256(new_pw).hexdigest()
     return hash_pw
-    
+
+
 
 
 

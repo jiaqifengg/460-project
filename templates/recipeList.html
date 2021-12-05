@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Select2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src = "/scripts/jquery.min.js"></script>
+    <script src = "/bootstrap/js/bootstrap.min.js"></script>
     <style>
       #register, #login, .navbar-brand{
         color: white; 
@@ -16,11 +18,20 @@
       #myId {
         background-color: #8fa4db;
       }
+      h1 {
+        margin-left: 10px;
+      }
+      #the-recipes {
+        margin-left: 0px;
+      }
+      body {
+        position: relative;
+      }
     </style>
 </head>
 <body>
     <div id="the-navbar">
-        <nav class="navbar navbar-light" id="myId">
+        <nav class="navbar navbar-light navbar-static-top" id="myId">
             <div class="container-fluid">
               <div class="navbar-header">
                 <a class="navbar-brand" href="/">Recipes</a>
@@ -32,13 +43,15 @@
             </div>
         </nav>
     </div>
-    <h1>Recipes Available</h1>
-    <ul style="list-style-type:none;"">
-        {% for recipeid in recipe_list %}
-          <div id='recipe-block'>
-            <li><a href="/recipe/{{ recipeid }}"">Recipe #{{ recipeid }}</a></li>
-          </div>
-        {% endfor %}
-    </ul>
+    <h1>{{ total_recipes }} Recipes Available</h1>
+    <div id="the_recipes"></div>
+      <ul style="list-style-type:none;"">
+          {% for recipeid in recipe_list %}
+            <div id='recipe-block'>
+              <li><a href="/recipe/{{ recipeid[0] }}"">{{ recipeid[1] }}</a></li>
+            </div>
+          {% endfor %}
+      </ul>
+    </div>
 </body>
 </html>
