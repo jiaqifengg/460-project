@@ -71,18 +71,20 @@ class database():
         # import recipes.csv to recipes table 
         # with Header yes and Delimeter ,
         # This FUNCTION SHOULD ONLY RUN ONCE
-
+        
         # self.set_up_helper_after_recipes_imported()
         
         # self.set_up_helper_change_administrator()
 
-        self.fill_category_table()
+        # self.fill_category_table()
+
+
+        # self.after_recipes_imported()
 
         self.connection.commit()
 
 
     def set_up_helper_after_recipes_imported(self):
-        
         # check if there is 1 inside 
         check_admin_exist = "SELECT userid FROM users WHERE userid=1;"
         self.cursor.execute(check_admin_exist)
@@ -131,13 +133,11 @@ class database():
         self.connection.commit()
 
         # update the password of administrator
-        update_admin_password = "UPDATE users "
-        update_admin_password += "SET password = '" + hash_admin_password + "' "
-        update_admin_password += "WHERE username = 'Administrator';"
-        self.cursor.execute(update_admin_password)
+        update_admin_password = """UPDATE users 
+                                SET password=(%s) 
+                                WHERE username = 'Administrator';"""
+        self.cursor.execute(update_admin_password, hash_admin_password)
         self.connection.commit()
-
-
 
     def check_user_exist(self, username):
         sql = """SELECT userid 
@@ -160,19 +160,31 @@ class database():
         self.cursor.execute(sql, val)
         self.connection.commit()
 
-    def login(self, username, password):
+    def login(self, username, password, token):
         # make sure to check if the username exist before using this function        
         sql = "SELECT password FROM users WHERE username=(%s);"
         val = (username, )
         self.cursor.execute(sql, val)
         hashed_password = self.cursor.fetchall()[0][0]
-        if hash_function(password) == hashed_password:
-            return True
-        return False
 
+        # check if the password is correct
+        if hash_function(password) == hashed_password:
+            # update token
+            sql = """UPDATE users
+                    SET logged_token=%s
+                    WHERE username=%s;"""
+            hash_token = hash_function(token)
+            val = (hash_token, username)
+            self.cursor.execute(sql, val)
+            self.connection.commit()
+            return True
+
+        return False
     
-    def update_hash(self, username):
-        return
+    def check_token(self, token):
+        # return [] when the token is not exist
+        # return [id, username] when token is exist
+
 
     
     def fill_category_table(self):
@@ -212,13 +224,48 @@ class database():
         insert_tofu = "INSERT INTO categories (category, recipes) VALUES ('Tofu', %s);"
         self.cursor.execute(insert_tofu, (tofuArray,))
 
+
+    def check_token(self, token):
+        # return [] when the token is not exist
+        # return [id, username] when token is exist
+        # check if token exist
+        if token == None:
+            return []
+        
+        hash_token = hash_function(token)
+        sql = """SELECT userid, username
+                FROM users
+                WHERE logged_token=(%s)"""
+        val = (hash_token,)
+        self.cursor.execute(sql,val)
+        user = self.cursor.fetchall()
+
+        # when there is no token match with the input token
+        if len(user) == 0:
+            return []
+        return user[0]
+
+
+    def get_recipes(self, ingredient_list):
+        query = """SELECT * FROM recipes WHERE %s && ingredients"""
+        # print(query % ingredient_list)
+        self.cursor.execute(query, (ingredient_list,))
+        results = self.cursor.fetchall()
+        self.connection.commit()
+        ids_title = []
+        for recipe in results:
+            id = recipe[0]
+            title = recipe[1]
+            ids_title.append((id, title))
+        # print(ids_title)
+        return ids_title
+       
+
     
-
-
-def hash_function(password):
-    new_pw = password.encode()
-    hash_pw = hashlib.sha256(new_pw).hexdigest()
-    return hash_pw
+def hash_function(input):
+    new_pw = input.encode()
+    hash_input = hashlib.sha256(new_pw).hexdigest()
+    return hash_input
     
 
 
