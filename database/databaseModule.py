@@ -74,9 +74,10 @@ class database():
         
         # self.set_up1_helper_after_recipes_imported()
         # self.set_up2_helper_change_administrator()
-        # self.set_up3_helper_fill_category_table()
+        # self.set_up_helper3_fill_category_table()
         # self.set_up_helper4_create_view_category_count()
-        self.set_up_helper5_trigger_for_comment()
+        # self.set_up_helper5_trigger_for_comment()
+
 
         self.connection.commit()
 
@@ -137,6 +138,7 @@ class database():
         self.cursor.execute(update_admin_password, hash_admin_password)
         self.connection.commit()
 
+
     def set_up_helper3_fill_category_table(self):
 
         #Creates an array of recipes containing chicken, and then inserts into the categories table
@@ -174,6 +176,7 @@ class database():
         insert_tofu = "INSERT INTO categories (category, recipes) VALUES ('Tofu', %s);"
         self.cursor.execute(insert_tofu, (tofuArray,))
 
+
     def set_up_helper4_create_view_category_count(self):
         sql = """CREATE VIEW category_count AS
                 SELECT category, cardinality(recipes)
@@ -184,6 +187,7 @@ class database():
         self.cursor.execute(sql)
         self.connection.commit()
         return 
+
 
     def set_up_helper5_trigger_for_comment(self):
         # drop all userid foreign key for recipeid
@@ -400,7 +404,16 @@ class database():
         reuslts = self.cursor.fetchall()
         self.connection.commit()
         return reuslts[0]
-    
+
+
+    def get_category_count(self):
+        query = "SELECT * FROM category_count"
+        self.cursor.execute(query)
+        result = self.cursor.fetchall()
+        self.connection.commit()
+        return result
+
+
     def update_password(self, userid, username, curr_pw, new_pw):
         user_exist = self.check_user_exist(username)
         if user_exist:
@@ -421,6 +434,8 @@ class database():
                 return [False, 'Please Input the Correct Current Password']
         else:
             return [False, 'User does not exist with such username']
+    
+    
 
 
 def hash_function(input):

@@ -17,7 +17,13 @@ def index():
     if db.check_token(token) != []:
         auth = True
     #print(db.check_token(token))
-
+    count_category = db.get_category_count()
+    print(count_category)
+    chicken_count = str(count_category[0][1])
+    pork_count = str(count_category[1][1])
+    beef_count = str(count_category[2][1])
+    fish = str(count_category[3][1])
+    tofu = str(count_category[4][1])
     ## when insert comment 
     # check if userid and recipeid exist
     # userid = 4
@@ -28,7 +34,7 @@ def index():
     #     if comment != '':
     #         db.insert_comment(userid, recipeid, comment)
 
-    return render_template('home.html', auth=auth)
+    return render_template('home.html', auth=auth, chicken_count=chicken_count, pork_count=pork_count, beef_count=beef_count, fish_count=fish, tofu_count=tofu)
 
 
 @app.route('/login', methods=['GET', 'POST'])

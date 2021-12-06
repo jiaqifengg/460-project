@@ -22,8 +22,8 @@
         </div>
         <ul class="nav navbar-nav navbar-right">
           {% if not auth %}
-          <li><a href="/register" id="register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-          <li><a href="/login" id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li><a href="/register" id="register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+            <li><a href="/login" id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           {% else %}
             <li><a href="/settings" id="settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li> -->
           {% endif %}
@@ -85,15 +85,15 @@
       <p>Choose any proteins that you have: </p>
       <form action="/randomRecipe" method="GET">
         <input type="checkbox" id="chicken-check" name="category" value="Chicken">
-        <label for="chicken-check"> Chicken</label><br>
+        <label for="chicken-check"> Chicken ({{ chicken_count }} Recipes Available)</label><br>
         <input type="checkbox" id="beef-check" name="category" value="Beef">
-        <label for="beef-check"> Beef</label><br>
+        <label for="beef-check"> Beef ({{ beef_count }}  Recipes Available)</label><br>
         <input type="checkbox" id="fish-check" name="category" value="Fish">
-        <label for="fish-check"> Fish</label><br>
+        <label for="fish-check"> Fish ({{ fish_count }}  Recipes Available)</label><br>
         <input type="checkbox" id="pork-check" name="category" value="Pork">
-        <label for="pork-check"> Pork</label><br>
+        <label for="pork-check"> Pork ({{ pork_count }}  Recipes Available)</label><br>
         <input type="checkbox" id="tofu-check" name="category" value="Tofu">
-        <label for="tofu-check"> Tofu</label><br> 
+        <label for="tofu-check"> Tofu ({{ tofu_count }}  Recipes Available)</label><br> 
         <input type="submit" value="Random Recipe">
       </form>
     </div>
