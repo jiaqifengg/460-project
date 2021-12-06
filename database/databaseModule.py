@@ -76,7 +76,7 @@ class database():
         # self.set_up2_helper_change_administrator()
         # self.set_up3_helper_fill_category_table()
         # self.set_up_helper4_create_view_category_count()
-        # self.set_up_helper5_trigger_for_comment()
+        self.set_up_helper5_trigger_for_comment()
 
         self.connection.commit()
 
@@ -188,9 +188,9 @@ class database():
     def set_up_helper5_trigger_for_comment(self):
         # drop all userid foreign key for recipeid
 
-        sql = "ALTER TABLE recipes DROP CONSTRAINT recipe_userid_reference_user;"
-        self.cursor.execute(sql)
-        self.connection.commit()
+        # sql = "ALTER TABLE recipes DROP CONSTRAINT recipe_userid_reference_user;"
+        # self.cursor.execute(sql)
+        # self.connection.commit()
         
         function = """CREATE OR REPLACE FUNCTION userid_delete() RETURNS TRIGGER AS 
                         $BODY$
@@ -209,7 +209,7 @@ class database():
                 FOR EACH ROW 
                 EXECUTE PROCEDURE userid_delete();"""
         
-        self.cursor.execute(sql)
+        # self.cursor.execute(sql)
         self.connection.commit()
         return 
     
@@ -340,19 +340,17 @@ class database():
         val = (recipeid,)
         self.cursor.execute(sql, val)
         comments = self.cursor.fetchall()
-
+        print(comments)
         if len(comments) == 0:
             return []
 
         else:
             length = len(comments)
             for i in range(0, length):
-                sql = """SELECT username
-                        FROM users
-                        WHERE userid="""
+                sql = "SELECT username FROM users WHERE userid=%s"
                 userid = comments[i][0]
                 print(userid)
-                self.cursor.execute(sql + str(userid))
+                self.cursor.execute(sql, (userid,))
                 result = self.cursor.fetchall()
                 print(result)
                 if len(result) == 0:

@@ -115,16 +115,16 @@ def recipe(id):
     title = the_recipe[1]
     ingredients_amount = the_recipe[2]
     directions = the_recipe[3]
-    source = the_recipe[4]
     # print(source)
-    the_id = the_recipe[0]
-    comments = db.get_comment_by_recipe_id(the_id)
+    recipe_id = the_recipe[0]
+    print(recipe_id)
+    comments = db.get_comment_by_recipe_id(recipe_id)
     print(comments)
     template = render_template('recipe.html', title=title, 
                             ingredients_list=ingredients_amount, 
-                            directions_list=directions, original=source, id=the_id, comments_list=comments, auth=auth)
+                            directions_list=directions, id=recipe_id, comments_list=comments, auth=auth)
 
-    return make_respond_with_cookie(the_id, template)
+    return make_respond_with_cookie(recipe_id, template)
 
 
 @app.route('/comment', methods=['POST'])
