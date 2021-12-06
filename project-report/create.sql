@@ -28,6 +28,10 @@ CREATE TABLE IF NOT EXISTS categories(
 	recipes integer[]
 );
 
+COPY persons(first_name, last_name, dob, email)
+FROM 'project-report\recipes.csv'
+DELIMITER ','
+
 SELECT userid FROM users WHERE userid=1;
 
 INSERT INTO users (username, password) VALUES ('Administrator', 'cse460temp');
