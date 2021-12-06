@@ -14,7 +14,7 @@ SELECT userid, username FROM users WHERE logged_token=(%s)
 
 SELECT * FROM recipes WHERE %s && ingredients
 
-SELECT userid FROM users WHERE userid=%s
+SELECT userid FROM users WHERE userid=1
 
 SELECT recipeid FROM recipes WHERE recipeid=%s
 
