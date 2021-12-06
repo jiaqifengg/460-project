@@ -5,8 +5,7 @@ from database.databaseModule import database
 from auth import *
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:cse460pw@localhost/cse460db'
-db = database(app)
+db = database()
 
 @app.route('/', methods=['GET'])
 def index():

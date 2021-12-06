@@ -12,12 +12,7 @@ import random
 # delete all the comment with that recipe id
 
 class database():
-    def __init__(self, app):
-        #database_url = engine + '://' + user + ':' + password + '@' + host + '/' + dbname
-        #app.config['SQLALCHEMY_DATABASE_URI'] = database_url
-        #self.db = SQLAlchemy(app)
-        #sql = ("CREATE TABLE IF NOT EXISTS animals (id SERIAL PRIMARY KEY, name VARCHAR(160) UNIQUE);")
-        #self.db.engine.execute(sql)
+    def __init__(self):
         
 
         self.connection = psycopg2.connect(user = config.user,
@@ -72,11 +67,14 @@ class database():
         # SET UP HELPER FUNCTIONS SHOULD BE ONLY RUN ONCE AFTER IMPORT RECIPES TABLES
         # uncomment the following helper functions after import and comment once done
         
-        # self.set_up1_helper_after_recipes_imported()
-        # self.set_up2_helper_change_administrator()
-        # self.set_up_helper3_fill_category_table()
-        # self.set_up_helper4_create_view_category_count()
-        # self.set_up_helper5_trigger_for_comment()
+        oneTime = True 
+        if oneTime:
+            oneTime = False
+            self.set_up_helper1_after_recipes_imported()
+            self.set_up_helper2_change_administrator()
+            self.set_up_helper3_fill_category_table()
+            self.set_up_helper4_create_view_category_count()
+            self.set_up_helper5_trigger_for_comment()
 
 
         self.connection.commit()
@@ -135,7 +133,8 @@ class database():
         update_admin_password = """UPDATE users 
                                 SET password=(%s) 
                                 WHERE username = 'Administrator';"""
-        self.cursor.execute(update_admin_password, hash_admin_password)
+        val = (hash_admin_password, )
+        self.cursor.execute(update_admin_password, val)
         self.connection.commit()
 
 
@@ -192,9 +191,9 @@ class database():
     def set_up_helper5_trigger_for_comment(self):
         # drop all userid foreign key for recipeid
 
-        # sql = "ALTER TABLE recipes DROP CONSTRAINT recipe_userid_reference_user;"
-        # self.cursor.execute(sql)
-        # self.connection.commit()
+        sql = "ALTER TABLE recipes DROP CONSTRAINT recipe_userid_reference_user;"
+        self.cursor.execute(sql)
+        self.connection.commit()
         
         function = """CREATE OR REPLACE FUNCTION userid_delete() RETURNS TRIGGER AS 
                         $BODY$
@@ -213,7 +212,7 @@ class database():
                 FOR EACH ROW 
                 EXECUTE PROCEDURE userid_delete();"""
         
-        # self.cursor.execute(sql)
+        self.cursor.execute(sql)
         self.connection.commit()
         return 
     
