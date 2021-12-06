@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS categories(
 	recipes integer[]
 );
 
-COPY persons(first_name, last_name, dob, email)
+COPY recipes(recipeid, title, ingredients, directions, from_source, from_link, ner)
 FROM 'project-report\recipes.csv'
 DELIMITER ','
 
