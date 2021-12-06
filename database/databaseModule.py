@@ -67,15 +67,14 @@ class database():
         # SET UP HELPER FUNCTIONS SHOULD BE ONLY RUN ONCE AFTER IMPORT RECIPES TABLES
         # uncomment the following helper functions after import and comment once done
         
-        oneTime = True 
-        if oneTime:
-            oneTime = False
-            self.set_up_helper1_after_recipes_imported()
-            self.set_up_helper2_change_administrator()
-            self.set_up_helper3_fill_category_table()
-            self.set_up_helper4_create_view_category_count()
-            self.set_up_helper5_trigger_for_comment()
-
+        # oneTime = True 
+        # if oneTime:
+        #     oneTime = False
+        #     self.set_up_helper1_after_recipes_imported()
+        #     self.set_up_helper2_change_administrator()
+        #     self.set_up_helper3_fill_category_table()
+        #     self.set_up_helper4_create_view_category_count()
+        #     self.set_up_helper5_trigger_for_comment()
 
         self.connection.commit()
 

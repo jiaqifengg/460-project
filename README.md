@@ -38,6 +38,9 @@ http://127.0.0.1:5000/
 2. Comment out lines 70-77 from database/databaseModule.py 
     - This enables the modification of the tables, creation of views and triggers.
 4. Run python3 app.py (Please make sure pgadmin is open) to run step 2 queries.
+    - This Error will maybe show up:
+        psycopg2.errors.DuplicateColumn: column "ingredients_amount" of relation "recipes" already exists
+    - This is due to connection to the database errors but it is okay since it does not mess up anything.
 5. Comment the lines 70-77 from database/databaseModule.py  
     - Disables the modification of the tables, creation of views and triggers.
 3. After the above steps are done you are free to run the application normally with 
